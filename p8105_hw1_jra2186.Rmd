@@ -62,7 +62,7 @@ After being transformed by `as.numeric`:
 Our numeric vector stays the same.
 Our logical vector is coerced into 0s and 1s, mapping `FALSE` to 0 and `TRUE` to 1, which explains our earlier output.
 The character vector turns into all `NA`s, totally fails to be coerced.
-And our factor vector, interestingly, has its factor levels alphabetically to the natural numbers... which doesn't explain why we got a `NA` before. That's *weird*.
+And our factor vector, interestingly, has its factor levels coerced alphabetically to the natural numbers... which doesn't explain why we got a `NA` before. That's *weird*.
 
 
 ## Problem 2
@@ -101,9 +101,22 @@ summary(penguins)[1:3,c(1,2,7)] #I dislike this 'table' class
 
 ```{r}
 flipper_bill <- ggplot(
-  data = penguins,
-                       )
+  data = penguins, 
+  aes(x = bill_length_mm,
+      y = flipper_length_mm,
+      color = species)) + geom_point() +
+  labs(color = "Species", #Add labels!
+      x = "Bill Length (mm)",
+      y = "Flipper Length (mm)",
+      title = "Bill and flipper length of three penguin species")
+print(flipper_bill)
 ```
 
 Export your first scatterplot to your project directory using `ggsave`.
+
+N.B.: This chunk has the flag `eval = FALSE`
+```{r eval = FALSE}
+ggsave("bill_flipper_penguins.jpg")
+```
+
 
