@@ -8,3 +8,90 @@ output: github_document
 ```{r}
 
 ```
+
+## Problem 1
+
+This problem is intended to emphasize variable types and introduce coercion; some awareness of how R treats numeric, character, and factor variables is necessary for working with these data types in practice.
+
+Create a data frame comprised of:
+
+* a random sample of size 10 from a standard Normal distribution
+* a logical vector indicating whether elements of the sample are greater than 0
+* a character vector of length 10
+* a factor vector of length 10, with 3 different factor “levels”
+
+(a) Try to take the mean of each variable in your dataframe. What works and what doesn’t?
+
+*Hint: to take the mean of a variable in a dataframe, you need to pull the variable out of the dataframe. Try loading the tidyverse and using the* `pull` *function.*
+
+```{r Problem 1a}
+#A random sample of size 10 from the standard Normal distribuion
+set.seed(2000) #Seed for reproducibility
+standard_10 <- rnorm(n = 10)
+
+#A logical vector indicating whether elements of the sample are greater than 0
+is_positive <- standard_10 > 0
+
+#A character vector of length 10
+a_to_j <- letters[1:10]
+
+#A factor vector of length 10, with 3 different factor "levels"
+tricolor <- factor(x = c(rep("blue", 3),rep("white",4),rep("red",3)))
+
+#Initialize dataframe
+my_df <- data.frame(
+  num = standard_10,
+  logi = is_positive,
+  char = a_to_j,
+  fact = tricolor
+  )
+
+#Try to take the mean of each variable in your dataframe. What works and what doesn’t?
+lapply(my_df, mean) #No need to load tidyverse
+```
+
+Not surprisingly, taking the `mean` of the numeric vector worked. The `mean` of a logical vector is the proportion of `TRUE` values. The `mean` for a character vector or a factor vector is `NA`—it doesn't work.
+
+(b) In some cases, you can explicitly convert variables from one type to another. Write a code chunk that applies the `as.numeric` function to the logical, character, and factor variables (please show this chunk but not the output). What happens, and why? Does this help explain what happens when you try to take the mean?
+
+```{r eval = FALSE}
+lapply(my_df, as.numeric) #Apply the as.numeric function to each vector in the list
+```
+
+After being transformed by `as.numeric`:
+
+Our numeric vector stays the same.
+Our logical vector is coerced into 0s and 1s, mapping `FALSE` to 0 and `TRUE` to 1, which explains our earlier output.
+The character vector turns into all `NA`s, totally fails to be coerced.
+And our factor vector, interestingly, has its factor levels alphabetically to the natural numbers... which doesn't explain why we got a `NA` before. That's *weird*.
+
+
+## Problem 2
+
+This problem focuses the use of inline R code, plotting, and the behavior of `ggplot` for variables of different types.
+
+Use the code below to download the a package containing the `penguins` dataset:
+```
+install.packages("palmerpenguins")
+```
+
+(Note – you only need to run this command once to install the package, and you can do so directly in the console. This code shouldn’t be executed by your RMarkdown file.)
+
+Next, use the following code (in your RMarkdown file) to load the `penguins` dataset:
+
+```{r}
+data("penguins", package = "palmerpenguins")
+```
+
+Write a short description of the `penguins` dataset (not the `penguins_raw` dataset) using inline R code, including:
+
+* the data in this dataset, including names / values of important variables
+* the size of the dataset (using `nrow` and `ncol`)
+* the mean flipper length
+
+Make a scatterplot of `flipper_length_mm` (y) vs `bill_length_mm` (x); color points using the `species` variable (adding `color = ...` inside of `aes` in your `ggplot` code should help).
+
+Export your first scatterplot to your project directory using `ggsave`.
+
+
+
