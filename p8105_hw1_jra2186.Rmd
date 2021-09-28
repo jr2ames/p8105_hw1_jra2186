@@ -1,0 +1,10 @@
+---
+title: "P8105 Homework 1"
+author: "Jesse R. Ames"
+date: "9/27/2021"
+output: github_document
+---
+
+```{r}
+
+```
