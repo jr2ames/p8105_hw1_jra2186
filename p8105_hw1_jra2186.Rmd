@@ -6,7 +6,7 @@ output: github_document
 ---
 
 ```{r}
-
+library(ggplot2)
 ```
 
 ## Problem 1
@@ -43,8 +43,7 @@ my_df <- data.frame(
   num = standard_10,
   logi = is_positive,
   char = a_to_j,
-  fact = tricolor
-  )
+  fact = tricolor)
 
 #Try to take the mean of each variable in your dataframe. What works and what doesn’t?
 lapply(my_df, mean) #No need to load tidyverse
@@ -83,15 +82,28 @@ Next, use the following code (in your RMarkdown file) to load the `penguins` dat
 data("penguins", package = "palmerpenguins")
 ```
 
-Write a short description of the `penguins` dataset (not the `penguins_raw` dataset) using inline R code, including:
+(a) Write a short description of the `penguins` dataset (not the `penguins_raw` dataset) using inline R code, including:
 
 * the data in this dataset, including names / values of important variables
 * the size of the dataset (using `nrow` and `ncol`)
 * the mean flipper length
 
-Make a scatterplot of `flipper_length_mm` (y) vs `bill_length_mm` (x); color points using the `species` variable (adding `color = ...` inside of `aes` in your `ggplot` code should help).
+```{r Problem 2a}
+#Includes variable names, types, and summary statistics (including mean flipper length) as well as number of rows and columns
+skimr::skim(penguins)
+
+#For full names of factor levels
+summary(penguins)[1:3,c(1,2,7)] #I dislike this 'table' class
+```
+
+(b) Make a scatterplot of `flipper_length_mm` (y) vs `bill_length_mm` (x); color points using the `species` variable (adding `color = ...` inside of `aes` in your `ggplot` code should help).
+
+
+```{r}
+flipper_bill <- ggplot(
+  data = penguins,
+                       )
+```
 
 Export your first scatterplot to your project directory using `ggsave`.
-
-
 
